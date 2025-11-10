@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import workplaceBg from "@/assets/workplace-bg.jpg";
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -7,8 +8,14 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-secondary via-secondary/95 to-primary/20">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072')] bg-cover bg-center opacity-10"></div>
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${workplaceBg})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-secondary/95 via-secondary/90 to-primary/80"></div>
+      </div>
       
       <div className="container relative z-10 px-4 py-20 mx-auto text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">

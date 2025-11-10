@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
+import successImg from "@/assets/woman-success.jpg";
 
 const testimonials = [
   {
@@ -24,8 +25,17 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container px-4 mx-auto">
+    <section className="relative py-20 overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${successImg})` }}
+      >
+        <div className="absolute inset-0 bg-background/97"></div>
+      </div>
+
+      {/* Content */}
+      <div className="container relative z-10 px-4 mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">
             What Our Clients Say
@@ -37,8 +47,9 @@ const Testimonials = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="hover:shadow-soft transition-all duration-300 border-border/50">
+            <Card key={index} className="group hover:shadow-glow transition-all duration-300 border-border/20 bg-card/95 backdrop-blur-sm hover:-translate-y-2">
               <CardContent className="pt-6 space-y-4">
+                <Quote className="w-10 h-10 text-accent/30 mb-2" />
                 <div className="flex gap-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-accent text-accent" />
