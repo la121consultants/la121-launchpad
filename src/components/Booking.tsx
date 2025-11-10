@@ -1,64 +1,65 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, Video } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Calendar, Clock, CheckCircle2 } from "lucide-react";
 
 const Booking = () => {
+  const benefits = [
+    "10-minute free consultation",
+    "Discuss your career goals",
+    "Get expert advice",
+    "No obligation required"
+  ];
+
   return (
-    <section id="booking" className="py-20 bg-background">
+    <section id="booking" className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
       <div className="container px-4 mx-auto">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">
-              Book a 10-Minute Strategy Call
+            <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
+              <Calendar className="w-12 h-12 text-primary" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-6">
+              Book Your Free 10-Minute Strategy Call
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Let's discuss your career goals and find the perfect solution for you
+            <p className="text-lg text-muted-foreground mb-8">
+              Let's talk about your goals and how we can help. Book your free call below — no obligation, just guidance.
             </p>
           </div>
-          
-          <Card className="border-2 border-primary/20 shadow-soft">
-            <CardHeader className="text-center pb-8">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-6">
-                <Calendar className="w-10 h-10 text-white" />
+
+          <Card className="border-border/50 shadow-elevated">
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                {benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                    <span className="text-foreground/80">{benefit}</span>
+                  </div>
+                ))}
               </div>
-              <CardTitle className="text-2xl text-secondary">Free Strategy Session</CardTitle>
-              <CardDescription className="text-base">
-                No commitment required • Personalized advice • Quick and convenient
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                  <Clock className="w-6 h-6 text-primary mb-2" />
-                  <p className="text-sm font-semibold">10 Minutes</p>
-                  <p className="text-xs text-muted-foreground">Quick & focused</p>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                  <Video className="w-6 h-6 text-primary mb-2" />
-                  <p className="text-sm font-semibold">Video Call</p>
-                  <p className="text-xs text-muted-foreground">Face-to-face online</p>
-                </div>
-                <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                  <Calendar className="w-6 h-6 text-primary mb-2" />
-                  <p className="text-sm font-semibold">Flexible Times</p>
-                  <p className="text-xs text-muted-foreground">Book at your convenience</p>
+
+              <div className="bg-muted/50 rounded-lg p-6 mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Clock className="w-6 h-6 text-primary" />
+                  <div>
+                    <h3 className="font-semibold text-secondary">Quick & Easy</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Choose a time that works for you — we'll send confirmation and meeting link via Gmail
+                    </p>
+                  </div>
                 </div>
               </div>
-              
-              <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg p-8 text-center">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Choose a time that works for you from our available slots
-                </p>
+
+              <div className="text-center">
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-6"
-                  onClick={() => window.open('https://calendar.google.com/calendar/appointments/schedules/AcZssZ0la121consultants', '_blank')}
+                  className="bg-secondary hover:bg-secondary/90 text-white px-12 py-6 text-lg w-full md:w-auto"
+                  onClick={() => window.open('https://calendar.google.com', '_blank')}
                 >
-                  Schedule My Call Now
+                  <Calendar className="w-5 h-5 mr-2" />
+                  Schedule My Free Call
                 </Button>
                 <p className="text-xs text-muted-foreground mt-4">
-                  You'll receive a confirmation email immediately after booking
+                  Powered by Google Calendar • Instant confirmation via email
                 </p>
               </div>
             </CardContent>

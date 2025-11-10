@@ -13,10 +13,10 @@ const Hero = () => {
         icons: ["⭐"]
       }}
       headline={{
-        line1: "Helping You Land the",
-        line2: "Right Role — Faster"
+        line1: "Personalised One-to-One",
+        line2: "Career Consulting"
       }}
-      subtitle="AI-powered CVs, Portfolios, and Career Tools designed for the modern job market."
+      subtitle="Get expert guidance on CVs, interviews, and career strategy. Transform your job search with AI-powered tools and personalized mentorship from LA121 Consultants."
       buttons={{
         primary: {
           text: "Book a Free Strategy Call",
