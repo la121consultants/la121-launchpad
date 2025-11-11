@@ -26,6 +26,9 @@ const Navbar = () => {
             <Link to="/" className="text-secondary hover:text-primary transition-colors font-medium">
               Home
             </Link>
+            <Link to="/about" className="text-secondary hover:text-primary transition-colors font-medium">
+              About
+            </Link>
             <button onClick={() => scrollToSection("services")} className="text-secondary hover:text-primary transition-colors font-medium">
               Services
             </button>
@@ -34,9 +37,6 @@ const Navbar = () => {
             </button>
             <Link to="/work-experience" className="text-secondary hover:text-primary transition-colors font-medium">
               Work Experience
-            </Link>
-            <Link to="/about" className="text-secondary hover:text-primary transition-colors font-medium">
-              About
             </Link>
             <Button
               onClick={() => scrollToSection("booking")}
@@ -61,6 +61,9 @@ const Navbar = () => {
             <Link to="/" className="block text-secondary hover:text-primary transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
               Home
             </Link>
+            <Link to="/about" className="block text-secondary hover:text-primary transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+              About
+            </Link>
             <button onClick={() => scrollToSection("services")} className="block w-full text-left text-secondary hover:text-primary transition-colors font-medium py-2">
               Services
             </button>
@@ -69,9 +72,6 @@ const Navbar = () => {
             </button>
             <Link to="/work-experience" className="block text-secondary hover:text-primary transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
               Work Experience
-            </Link>
-            <Link to="/about" className="block text-secondary hover:text-primary transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
-              About
             </Link>
             <Button
               onClick={() => scrollToSection("booking")}
