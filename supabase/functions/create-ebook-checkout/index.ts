@@ -27,8 +27,10 @@ serve(async (req) => {
     });
 
     // Create a one-time payment session
+    // Only include customer_email if it's provided and not empty
+    // Otherwise, Stripe Checkout will collect it during the payment flow
     const session = await stripe.checkout.sessions.create({
-      customer_email: customerEmail,
+      ...(customerEmail && customerEmail.trim() !== "" ? { customer_email: customerEmail } : {}),
       line_items: [
         {
           price: priceId,
@@ -37,7 +39,7 @@ serve(async (req) => {
       ],
       mode: "payment",
       success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/#ebooks`,
+      cancel_url: `${req.headers.get("origin")}/ebooks`,
       allow_promotion_codes: true,
     });
 
