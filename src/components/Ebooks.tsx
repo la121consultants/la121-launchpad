@@ -2,37 +2,76 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Download, BookOpen } from "lucide-react";
 import interviewImg from "@/assets/interview.jpg";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const ebooks = [
   {
-    title: "The Modern CV Guide",
-    description: "Master the art of creating ATS-friendly CVs that get you noticed by recruiters and hiring managers.",
-    downloadLink: "#",
-    pages: "42 pages",
+    title: "Returning to Work After Having a Baby",
+    description: "Comprehensive guide for parents re-entering the workforce with practical advice on work-life balance, CV updates, and career strategies.",
+    priceId: "price_1SSLKQGTySjrCnV14vGRyhr0",
+    price: "£9.99",
+    pages: "Professional guide",
+    filename: "returning-to-work-after-baby.pdf"
   },
   {
-    title: "Interview Success Strategies",
-    description: "Learn proven techniques to ace any interview, from preparation to follow-up, with real examples.",
-    downloadLink: "#",
-    pages: "36 pages",
+    title: "Smart Ways to Use AI to Land Your Next Job",
+    description: "AI-powered job search guide with smart strategies for admin, marketing, project management, and finance professionals.",
+    priceId: "price_1SSLL2GTySjrCnV1oLIbjToF",
+    price: "£9.99",
+    pages: "AI job search toolkit",
+    filename: "smart-ways-to-use-ai.pdf"
   },
   {
-    title: "LinkedIn Profile Optimization",
-    description: "Transform your LinkedIn presence and attract recruiters with our step-by-step optimization guide.",
-    downloadLink: "#",
-    pages: "28 pages",
+    title: "Side Hustle Success Playbook",
+    description: "Complete playbook for building and scaling your side hustle while maintaining work-life balance and achieving financial freedom.",
+    priceId: "price_1SSLLGGTySjrCnV1AqToGd8x",
+    price: "£14.99",
+    pages: "Complete playbook",
+    filename: "side-hustle-success-playbook.pdf"
   },
   {
-    title: "Career Transition Blueprint",
-    description: "Navigate career changes confidently with strategies for pivoting industries or roles successfully.",
-    downloadLink: "#",
-    pages: "54 pages",
+    title: "Networking: Unlocking Career Success",
+    description: "Build confidence and succeed in networking with practical strategies for career advancement and professional relationship building.",
+    priceId: "price_1SSLLTGTySjrCnV1qjnXSY3J",
+    price: "£9.99",
+    pages: "Networking masterclass",
+    filename: "networking-career-success.pdf"
   },
 ];
 
 const Ebooks = () => {
+  const [loadingEbook, setLoadingEbook] = useState<string | null>(null);
+
+  const handlePurchase = async (ebook: typeof ebooks[0]) => {
+    try {
+      setLoadingEbook(ebook.priceId);
+      
+      const { data, error } = await supabase.functions.invoke('create-ebook-checkout', {
+        body: { 
+          priceId: ebook.priceId,
+          customerEmail: "" // Optional: can collect email first
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Error creating checkout:', error);
+      toast.error('Failed to start checkout. Please try again.');
+    } finally {
+      setLoadingEbook(null);
+    }
+  };
+
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section id="ebooks" className="relative py-20 overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
@@ -70,8 +109,9 @@ const Ebooks = () => {
                   <BookOpen className="w-6 h-6 text-primary" />
                 </div>
                 <CardTitle className="text-xl text-secondary">{ebook.title}</CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  {ebook.pages}
+                <CardDescription className="text-sm text-muted-foreground flex items-center justify-between">
+                  <span>{ebook.pages}</span>
+                  <span className="text-primary font-semibold">{ebook.price}</span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -80,12 +120,17 @@ const Ebooks = () => {
                 </p>
                 <Button 
                   className="w-full group-hover:scale-105 transition-transform"
-                  asChild
+                  onClick={() => handlePurchase(ebook)}
+                  disabled={loadingEbook === ebook.priceId}
                 >
-                  <a href={ebook.downloadLink} target="_blank" rel="noopener noreferrer">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download Free
-                  </a>
+                  {loadingEbook === ebook.priceId ? (
+                    "Loading..."
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 mr-2" />
+                      Purchase Now
+                    </>
+                  )}
                 </Button>
               </CardContent>
             </Card>
