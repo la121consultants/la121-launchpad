@@ -17,6 +17,7 @@ const AdminLogin = () => {
   const [resetMode, setResetMode] = useState(false);
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
+  const [superAdminLoading, setSuperAdminLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -69,6 +70,56 @@ const AdminLogin = () => {
       toast.error('An unexpected error occurred');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSuperAdminLogin = async () => {
+    if (!email || !password) {
+      toast.error('Please enter your email and password');
+      return;
+    }
+
+    setSuperAdminLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error || !data.user) {
+        throw error || new Error('Unable to sign in as super admin');
+      }
+
+      const { data: hasSuperAdminRole, error: roleError } = await supabase.rpc(
+        'has_role',
+        {
+          _user_id: data.user.id,
+          _role: 'super_admin',
+        }
+      );
+
+      if (roleError) {
+        throw roleError;
+      }
+
+      if (!hasSuperAdminRole) {
+        await supabase.auth.signOut();
+        toast.error('Super admin access required', {
+          description: 'This account does not have super admin privileges.',
+        });
+        return;
+      }
+
+      toast.success('Super admin login successful');
+      navigate('/admin/dashboard');
+    } catch (error) {
+      console.error(error);
+      toast.error('Super admin login failed', {
+        description: error instanceof Error ? error.message : 'Please try again.',
+      });
+    } finally {
+      setSuperAdminLoading(false);
     }
   };
 
@@ -131,6 +182,22 @@ const AdminLogin = () => {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (resetMode ? 'Sending...' : 'Signing in...') : (resetMode ? 'Send Reset Link' : 'Sign In')}
             </Button>
+            {!resetMode && (
+              <Button
+                type="button"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={handleSuperAdminLogin}
+                disabled={superAdminLoading || loading}
+              >
+                {superAdminLoading ? 'Verifying super admin...' : 'Super Admin Login'}
+              </Button>
+            )}
+            {!resetMode && (
+              <p className="text-xs text-muted-foreground text-center">
+                Reserved for the highest-level administrators with the{' '}
+                <span className="font-medium text-primary">super_admin</span> role.
+              </p>
+            )}
             <Button
               type="button"
               variant="link"
