@@ -142,7 +142,7 @@ const AdminLogin = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@la121consultants.co.uk"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -191,6 +191,12 @@ const AdminLogin = () => {
               >
                 {superAdminLoading ? 'Verifying super admin...' : 'Super Admin Login'}
               </Button>
+            )}
+            {!resetMode && (
+              <p className="text-xs text-muted-foreground text-center">
+                Reserved for the highest-level administrators with the{' '}
+                <span className="font-medium text-primary">super_admin</span> role.
+              </p>
             )}
             <Button
               type="button"
