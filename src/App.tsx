@@ -10,6 +10,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import EbooksPage from "./pages/EbooksPage";
 import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
+import UserDashboard from "./pages/Dashboard";
 import Reviews from "./pages/admin/Reviews";
 import Services from "./pages/admin/Services";
 import Blog from "./pages/admin/Blog";
@@ -26,6 +27,7 @@ import OrderService from "./pages/OrderService";
 import Partnership from "./pages/Partnership";
 import Jobs from "./pages/Jobs";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,8 @@ const App = () => (
           <Route path="/order-service" element={<OrderService />} />
           <Route path="/partnership" element={<Partnership />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/users" element={<Users />} />
