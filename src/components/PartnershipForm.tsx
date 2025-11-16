@@ -4,9 +4,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Handshake } from 'lucide-react';
+
+const services = [
+  'Pre-Screened Candidate Pipeline',
+  'Candidate Preparation (CV, LinkedIn & Interview Prep)',
+  'Work Experience & Upskilling Programme',
+  'White-Label Support for Agencies',
+  'Tailored CVs & Portfolios Based on JD',
+  'Priority Candidate Alerts',
+];
+
+const digitalTools = [
+  'CV Revamp AI Tool',
+  'ShowIntroBio Tool',
+];
 
 const PartnershipForm = () => {
   const [loading, setLoading] = useState(false);
@@ -17,8 +39,30 @@ const PartnershipForm = () => {
     companyName: '',
     linkedinUrl: '',
     howFoundUs: '',
+    partnershipTier: '',
+    userCount: '',
+    selectedServices: [] as string[],
+    selectedTools: [] as string[],
     partnershipInterest: '',
   });
+
+  const handleServiceToggle = (service: string) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedServices: prev.selectedServices.includes(service)
+        ? prev.selectedServices.filter(s => s !== service)
+        : [...prev.selectedServices, service]
+    }));
+  };
+
+  const handleToolToggle = (tool: string) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedTools: prev.selectedTools.includes(tool)
+        ? prev.selectedTools.filter(t => t !== tool)
+        : [...prev.selectedTools, tool]
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,11 +94,22 @@ const PartnershipForm = () => {
         profileId = newProfile.id;
       }
 
+      const partnershipDetails = `
+Company: ${formData.companyName}
+Partnership Tier: ${formData.partnershipTier}
+Number of Users: ${formData.userCount || 'N/A'}
+Services Interested In: ${formData.selectedServices.join(', ') || 'None selected'}
+Digital Tools Interest: ${formData.selectedTools.join(', ') || 'None selected'}
+
+Additional Notes:
+${formData.partnershipInterest}
+      `.trim();
+
       const { error: submissionError } = await supabase.from('form_submissions').insert({
         profile_id: profileId,
         form_type: 'partnership',
-        service_selected: 'Partnership Inquiry',
-        additional_notes: `Company: ${formData.companyName}\n\n${formData.partnershipInterest}`,
+        service_selected: `${formData.partnershipTier} - ${formData.userCount || 'Pay Per Candidate'}`,
+        additional_notes: partnershipDetails,
         status: 'new',
       });
 
@@ -71,6 +126,10 @@ const PartnershipForm = () => {
         companyName: '',
         linkedinUrl: '',
         howFoundUs: '',
+        partnershipTier: '',
+        userCount: '',
+        selectedServices: [],
+        selectedTools: [],
         partnershipInterest: '',
       });
     } catch (error: any) {
@@ -163,23 +222,119 @@ const PartnershipForm = () => {
             />
           </div>
 
+          <div className="border-t pt-6 mt-6">
+            <h3 className="text-lg font-semibold mb-4">Partnership Details</h3>
+            
+            <div className="space-y-2">
+              <Label htmlFor="partnershipTier">Partnership Tier *</Label>
+              <Select
+                required
+                value={formData.partnershipTier}
+                onValueChange={(value) => setFormData({ ...formData, partnershipTier: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a tier" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50">
+                  <SelectItem value="Tier 1 - Pay Per Candidate">
+                    Tier 1 - Pay Per Candidate (£79/candidate + 6% commission)
+                  </SelectItem>
+                  <SelectItem value="Tier 2 - Monthly Access">
+                    Tier 2 - Monthly Access (Lower 5% commission)
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {formData.partnershipTier === 'Tier 2 - Monthly Access' && (
+            <div className="space-y-2">
+              <Label htmlFor="userCount">Number of Users *</Label>
+              <Select
+                required={formData.partnershipTier === 'Tier 2 - Monthly Access'}
+                value={formData.userCount}
+                onValueChange={(value) => setFormData({ ...formData, userCount: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select user count" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50">
+                  <SelectItem value="1-5 Users (£149/month)">1-5 Users (£149/month)</SelectItem>
+                  <SelectItem value="6-15 Users (£249/month)">6-15 Users (£249/month)</SelectItem>
+                  <SelectItem value="16-30 Users (£399/month)">16-30 Users (£399/month)</SelectItem>
+                  <SelectItem value="31-50 Users (£599/month)">31-50 Users (£599/month)</SelectItem>
+                  <SelectItem value="50+ Users (Custom Pricing)">50+ Users (Custom Pricing)</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                ✨ 50% off first month available
+              </p>
+            </div>
+          )}
+
+          <div className="space-y-3">
+            <Label>Services Interested In (Select all that apply)</Label>
+            <div className="space-y-2">
+              {services.map((service) => (
+                <div key={service} className="flex items-start space-x-3">
+                  <Checkbox
+                    id={service}
+                    checked={formData.selectedServices.includes(service)}
+                    onCheckedChange={() => handleServiceToggle(service)}
+                  />
+                  <label
+                    htmlFor={service}
+                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    {service}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <Label>Digital Tools Add-Ons (Optional)</Label>
+            <div className="space-y-2">
+              {digitalTools.map((tool) => (
+                <div key={tool} className="flex items-start space-x-3">
+                  <Checkbox
+                    id={tool}
+                    checked={formData.selectedTools.includes(tool)}
+                    onCheckedChange={() => handleToolToggle(tool)}
+                  />
+                  <label
+                    htmlFor={tool}
+                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    {tool}
+                  </label>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Give your candidates access to our AI-powered career tools
+            </p>
+          </div>
+
           <div className="space-y-2">
-            <Label htmlFor="partnershipInterest">Tell us about your partnership interest *</Label>
+            <Label htmlFor="partnershipInterest">Additional Information</Label>
             <Textarea
               id="partnershipInterest"
-              required
               value={formData.partnershipInterest}
               onChange={(e) => setFormData({ ...formData, partnershipInterest: e.target.value })}
-              placeholder="Describe your organization, partnership goals, volume of services needed, etc..."
+              placeholder="Tell us more about your organization, specific needs, expected volume, timeline, etc..."
               rows={6}
             />
           </div>
 
-          <div className="p-4 bg-accent/10 rounded-lg border border-accent/20">
+          <div className="space-y-3 p-4 bg-accent/10 rounded-lg border border-accent/20">
             <p className="text-sm text-foreground/80">
-              <strong>Partnership Benefits:</strong> We offer custom packages and pricing for
-              recruiters and corporate partners, including bulk services, dedicated support, and
-              flexible payment terms.
+              <strong>✨ Special Offer:</strong> Get 50% off your first month with Tier 2 partnerships
+            </p>
+            <p className="text-sm text-foreground/80">
+              <strong>Partnership Benefits:</strong> Custom packages, bulk services, dedicated support,
+              and flexible payment terms tailored to your agency's needs.
             </p>
           </div>
 
