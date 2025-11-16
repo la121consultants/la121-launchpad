@@ -161,6 +161,92 @@ export type Database = {
         }
         Relationships: []
       }
+      form_submissions: {
+        Row: {
+          additional_notes: string | null
+          created_at: string | null
+          form_type: string
+          id: string
+          preferred_datetime: string | null
+          profile_id: string | null
+          service_selected: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          created_at?: string | null
+          form_type: string
+          id?: string
+          preferred_datetime?: string | null
+          profile_id?: string | null
+          service_selected?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          created_at?: string | null
+          form_type?: string
+          id?: string
+          preferred_datetime?: string | null
+          profile_id?: string | null
+          service_selected?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_submissions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          email: string
+          full_name: string
+          how_found_us: string | null
+          id: string
+          last_login: string | null
+          linkedin_url: string | null
+          phone: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          how_found_us?: string | null
+          id?: string
+          last_login?: string | null
+          linkedin_url?: string | null
+          phone?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          how_found_us?: string | null
+          id?: string
+          last_login?: string | null
+          linkedin_url?: string | null
+          phone?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           avatar_url: string | null

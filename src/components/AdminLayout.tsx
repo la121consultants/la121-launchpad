@@ -16,6 +16,10 @@ import {
   FileCheck,
   LogOut,
   Loader2,
+  Users,
+  ClipboardList,
+  BarChart3,
+  Shield,
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -45,6 +49,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
+    { icon: Users, label: 'Website Users', path: '/admin/users' },
+    { icon: ClipboardList, label: 'Form Submissions', path: '/admin/submissions' },
+    { icon: BarChart3, label: 'Reports', path: '/admin/reports' },
+    { icon: Shield, label: 'Admin Users', path: '/admin/users-management' },
     { icon: Star, label: 'Reviews', path: '/admin/reviews' },
     { icon: Package, label: 'Services', path: '/admin/services' },
     { icon: FileText, label: 'Blog', path: '/admin/blog' },

@@ -16,6 +16,13 @@ import Blog from "./pages/admin/Blog";
 import EbooksAdmin from "./pages/admin/Ebooks";
 import Settings from "./pages/admin/Settings";
 import AuditLog from "./pages/admin/AuditLog";
+import AdminUsers from "./pages/admin/AdminUsers";
+import Users from "./pages/admin/Users";
+import FormSubmissions from "./pages/admin/FormSubmissions";
+import Reports from "./pages/admin/Reports";
+import BookCall from "./pages/BookCall";
+import OrderService from "./pages/OrderService";
+import Partnership from "./pages/Partnership";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,8 +39,15 @@ const App = () => (
           <Route path="/work-experience" element={<WorkExperience />} />
           <Route path="/ebooks" element={<EbooksPage />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/book-call" element={<BookCall />} />
+          <Route path="/order-service" element={<OrderService />} />
+          <Route path="/partnership" element={<Partnership />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/submissions" element={<FormSubmissions />} />
+          <Route path="/admin/reports" element={<Reports />} />
+          <Route path="/admin/users-management" element={<AdminUsers />} />
           <Route path="/admin/reviews" element={<Reviews />} />
           <Route path="/admin/services" element={<Services />} />
           <Route path="/admin/blog" element={<Blog />} />
