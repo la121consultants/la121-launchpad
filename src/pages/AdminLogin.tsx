@@ -124,9 +124,10 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-muted/30 to-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-3 text-center">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-muted/30 to-background">
+      <div className="flex-1 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="space-y-3 text-center">
           <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
             <Lock className="w-6 h-6 text-primary" />
           </div>
@@ -134,76 +135,88 @@ const AdminLogin = () => {
           <CardDescription>
             Sign in to access the LA121 Consultants admin dashboard
           </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={resetMode ? handlePasswordReset : handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@la121consultants.co.uk"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
-              />
-            </div>
-            {!resetMode && (
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={resetMode ? handlePasswordReset : handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    disabled={loading}
-                    className="pr-10"
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-muted-foreground" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-muted-foreground" />
-                    )}
-                  </Button>
-                </div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={loading}
+                />
               </div>
-            )}
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (resetMode ? 'Sending...' : 'Signing in...') : (resetMode ? 'Send Reset Link' : 'Sign In')}
-            </Button>
-            {!resetMode && (
-              <Button
-                type="button"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                onClick={handleSuperAdminLogin}
-                disabled={superAdminLoading || loading}
-              >
-                {superAdminLoading ? 'Verifying super admin...' : 'Super Admin Login'}
+              {!resetMode && (
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      disabled={loading}
+                      className="pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? (resetMode ? 'Sending...' : 'Signing in...') : (resetMode ? 'Send Reset Link' : 'Sign In')}
               </Button>
-            )}
-            <Button
-              type="button"
-              variant="link"
-              className="w-full text-sm"
-              onClick={() => setResetMode(!resetMode)}
-              disabled={loading}
-            >
-              {resetMode ? 'Back to login' : 'Forgot password?'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <Button
+                  type="button"
+                  variant="link"
+                  className="text-sm"
+                  onClick={() => setResetMode(!resetMode)}
+                  disabled={loading}
+                >
+                  {resetMode ? 'Back to login' : 'Forgot password?'}
+                </Button>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="text-sm"
+                  onClick={() => navigate('/auth?mode=signup')}
+                  disabled={loading}
+                >
+                  Need an account? Sign up
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="px-4 pb-8">
+        <Button
+          type="button"
+          onClick={handleSuperAdminLogin}
+          disabled={superAdminLoading || loading || resetMode}
+          className="w-full max-w-md mx-auto block bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg"
+        >
+          {superAdminLoading ? 'Verifying super admin...' : 'Super Admin Login'}
+        </Button>
+      </div>
     </div>
   );
 };
