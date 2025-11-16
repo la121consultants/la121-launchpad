@@ -136,6 +136,23 @@ ${formData.partnershipInterest}
 
       if (submissionError) throw submissionError;
 
+      // Send email notification
+      try {
+        await supabase.functions.invoke("send-partnership-email", {
+          body: {
+            fullName: formData.fullName,
+            email: formData.email,
+            companyName: formData.companyName,
+            partnershipTier: formData.partnershipTier,
+            selectedServices: formData.selectedServices,
+            additionalInfo: formData.partnershipInterest,
+          },
+        });
+      } catch (emailError) {
+        console.error("Email notification failed:", emailError);
+        // Don't fail the whole submission if email fails
+      }
+
       toast.success('Partnership inquiry submitted!', {
         description: 'We will review your proposal and get back to you soon.',
       });
