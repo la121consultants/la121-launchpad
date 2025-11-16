@@ -182,6 +182,7 @@ const AdminLogin = () => {
               )}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (resetMode ? 'Sending...' : 'Signing in...') : (resetMode ? 'Send Reset Link' : 'Sign In')}
+codex/remove-superadmin-button-from-sign-in-page-6dnts6
               </Button>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <Button
@@ -203,6 +204,18 @@ const AdminLogin = () => {
                   Need an account? Sign up
                 </Button>
               </div>
+
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                className="w-full text-sm"
+                onClick={() => setResetMode(!resetMode)}
+                disabled={loading}
+              >
+                {resetMode ? 'Back to login' : 'Forgot password?'}
+              </Button>
+
             </form>
           </CardContent>
         </Card>
