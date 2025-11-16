@@ -52,6 +52,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { icon: Users, label: 'Website Users', path: '/admin/users' },
     { icon: ClipboardList, label: 'Form Submissions', path: '/admin/submissions' },
     { icon: BarChart3, label: 'Reports', path: '/admin/reports' },
+    { icon: Package, label: 'Job Postings', path: '/admin/jobs' },
     { icon: Shield, label: 'Admin Users', path: '/admin/users-management' },
     { icon: Star, label: 'Reviews', path: '/admin/reviews' },
     { icon: Package, label: 'Services', path: '/admin/services' },

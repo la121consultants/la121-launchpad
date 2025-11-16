@@ -205,6 +205,75 @@ export type Database = {
           },
         ]
       }
+      job_postings: {
+        Row: {
+          application_email: string
+          application_url: string | null
+          benefits: string | null
+          company_email: string
+          company_logo: string | null
+          company_name: string
+          company_website: string | null
+          created_at: string | null
+          expires_at: string | null
+          featured: boolean | null
+          id: string
+          job_description: string
+          job_location: string
+          job_title: string
+          job_type: string
+          requirements: string | null
+          salary_range: string | null
+          status: string | null
+          updated_at: string | null
+          views_count: number | null
+        }
+        Insert: {
+          application_email: string
+          application_url?: string | null
+          benefits?: string | null
+          company_email: string
+          company_logo?: string | null
+          company_name: string
+          company_website?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          featured?: boolean | null
+          id?: string
+          job_description: string
+          job_location: string
+          job_title: string
+          job_type: string
+          requirements?: string | null
+          salary_range?: string | null
+          status?: string | null
+          updated_at?: string | null
+          views_count?: number | null
+        }
+        Update: {
+          application_email?: string
+          application_url?: string | null
+          benefits?: string | null
+          company_email?: string
+          company_logo?: string | null
+          company_name?: string
+          company_website?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          featured?: boolean | null
+          id?: string
+          job_description?: string
+          job_location?: string
+          job_title?: string
+          job_type?: string
+          requirements?: string | null
+          salary_range?: string | null
+          status?: string | null
+          updated_at?: string | null
+          views_count?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           active: boolean | null
