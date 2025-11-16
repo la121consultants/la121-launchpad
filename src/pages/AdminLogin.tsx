@@ -91,18 +91,19 @@ const AdminLogin = () => {
         throw error || new Error('Unable to sign in as super admin');
       }
 
-      const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', data.user.id)
-        .eq('role', 'admin')
-        .maybeSingle();
+      const { data: hasSuperAdminRole, error: roleError } = await supabase.rpc(
+        'has_role',
+        {
+          _user_id: data.user.id,
+          _role: 'super_admin',
+        }
+      );
 
       if (roleError) {
         throw roleError;
       }
 
-      if (!roleData) {
+      if (!hasSuperAdminRole) {
         await supabase.auth.signOut();
         toast.error('Super admin access required', {
           description: 'This account does not have super admin privileges.',
