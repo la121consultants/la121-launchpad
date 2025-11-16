@@ -9,10 +9,8 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { User } from "@supabase/supabase-js";
-import { cn } from "@/lib/utils";
 
-type AuthMode = "signin" | "signup" | "reset";
-type PortalRole = "user" | "admin" | "super_admin";
+type AuthMode = "signin" | "signup";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -21,28 +19,19 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [resetEmail, setResetEmail] = useState("");
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
-  const [role, setRole] = useState<PortalRole>("user");
-
-  const roleOptions: { value: PortalRole; label: string; description: string }[] = [
-    { value: "user", label: "User", description: "Track and manage your applications" },
-    { value: "admin", label: "Admin", description: "Review candidates and assign mentors" },
-    { value: "super_admin", label: "Super Admin", description: "Configure teams and permissions" },
-  ];
+  const [superAdminEmail, setSuperAdminEmail] = useState("");
+  const [superAdminPassword, setSuperAdminPassword] = useState("");
+  const [superAdminLoading, setSuperAdminLoading] = useState(false);
 
   const modeCopy: Record<AuthMode, { title: string; description: string }> = {
     signin: {
       title: "Sign In",
-      description: "Choose the portal that matches your responsibilities and continue",
+      description: "Use your Launchpad credentials to access your workspace",
     },
     signup: {
       title: "Create Account",
       description: "Join Launchpad so you can keep every application organized",
-    },
-    reset: {
-      title: "Reset Password",
-      description: "We'll email you a secure link to set a new password",
     },
   };
 
@@ -109,9 +98,7 @@ const Auth = () => {
       });
 
       if (error) throw error;
-
-      const readableRole = role.replace("_", " ");
-      toast.success(`Signed in as ${readableRole}!`);
+      toast.success("Signed in successfully!");
       navigate("/dashboard");
     } catch (error: any) {
       toast.error(error.message || "Failed to sign in");
@@ -120,23 +107,46 @@ const Auth = () => {
     }
   };
 
-  const handlePasswordReset = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePasswordReset = async () => {
+    if (!email) {
+      toast.error("Enter your email above before requesting a reset link");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/auth`,
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/dashboard`,
       });
 
       if (error) throw error;
 
-      toast.success("Password reset email sent! Check your inbox.");
-      setResetEmail("");
+      toast.success("Password reset link sent! Check your email");
     } catch (error: any) {
       toast.error(error.message || "Failed to send reset email");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSuperAdminSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSuperAdminLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: superAdminEmail,
+        password: superAdminPassword,
+      });
+
+      if (error) throw error;
+      toast.success("Super admin access granted");
+      navigate("/dashboard");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to sign in");
+    } finally {
+      setSuperAdminLoading(false);
     }
   };
 
@@ -151,30 +161,6 @@ const Auth = () => {
               <CardDescription>{modeCopy[authMode].description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {authMode === "signin" && (
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium">Select your portal</Label>
-                  <div className="grid gap-3 sm:grid-cols-3">
-                    {roleOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => setRole(option.value)}
-                        className={cn(
-                          "rounded-xl border p-3 text-left transition-colors",
-                          role === option.value
-                            ? "border-primary bg-primary/5 text-primary"
-                            : "border-border hover:border-primary/40"
-                        )}
-                      >
-                        <p className="text-sm font-semibold capitalize">{option.label}</p>
-                        <p className="text-xs text-muted-foreground">{option.description}</p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {authMode === "signin" && (
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
@@ -198,6 +184,19 @@ const Auth = () => {
                       required
                       placeholder="••••••••"
                     />
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      One secure login works for every role
+                    </span>
+                    <button
+                      type="button"
+                      className="text-primary hover:underline"
+                      onClick={handlePasswordReset}
+                      disabled={loading}
+                    >
+                      Forgot password?
+                    </button>
                   </div>
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? "Signing in..." : "Continue"}
@@ -246,35 +245,16 @@ const Auth = () => {
                   </Button>
                 </form>
               )}
-
-              {authMode === "reset" && (
-                <form onSubmit={handlePasswordReset} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="reset-email">Email</Label>
-                    <Input
-                      id="reset-email"
-                      type="email"
-                      value={resetEmail}
-                      onChange={(e) => setResetEmail(e.target.value)}
-                      required
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? "Sending..." : "Send reset link"}
-                  </Button>
-                </form>
-              )}
             </CardContent>
           </Card>
 
           <div className="order-1 md:order-2 space-y-4">
             <div className="rounded-2xl border bg-muted/40 p-6">
               <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                Quick actions
+                Quick toggle
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {(["signin", "signup", "reset"] as const).map((mode) => (
+                {(["signin", "signup"] as const).map((mode) => (
                   <Button
                     key={mode}
                     type="button"
@@ -284,27 +264,51 @@ const Auth = () => {
                   >
                     {mode === "signin" && "Sign In"}
                     {mode === "signup" && "Sign Up"}
-                    {mode === "reset" && "Reset"}
                   </Button>
                 ))}
               </div>
               <p className="mt-4 text-sm text-muted-foreground">
-                Switch between sign in, account creation, or password reset without leaving the page.
+                Swap between signing in and creating a new account without leaving this page.
               </p>
             </div>
 
-            <div className="rounded-2xl border bg-card p-6 shadow-sm">
-              <p className="text-base font-semibold">Need elevated access?</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Admin and super admin logins share the same secure form. Choose your portal and use your
-                assigned credentials to continue.
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                <li>• Users manage their own job pipeline</li>
-                <li>• Admins oversee teams and review submissions</li>
-                <li>• Super admins configure global settings</li>
-              </ul>
-            </div>
+            <Card className="bg-card shadow-sm">
+              <CardHeader>
+                <CardTitle>Super Admin Access</CardTitle>
+                <CardDescription>
+                  Reserved for platform owners who configure organizations and permissions.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSuperAdminSignIn} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="super-admin-email">Email</Label>
+                    <Input
+                      id="super-admin-email"
+                      type="email"
+                      value={superAdminEmail}
+                      onChange={(e) => setSuperAdminEmail(e.target.value)}
+                      required
+                      placeholder="owner@launchpad.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="super-admin-password">Password</Label>
+                    <Input
+                      id="super-admin-password"
+                      type="password"
+                      value={superAdminPassword}
+                      onChange={(e) => setSuperAdminPassword(e.target.value)}
+                      required
+                      placeholder="••••••••"
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={superAdminLoading}>
+                    {superAdminLoading ? "Verifying..." : "Super Admin Sign In"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
