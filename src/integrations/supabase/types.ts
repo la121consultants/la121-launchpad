@@ -14,16 +14,315 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          ip_address: string | null
+          resource_id: string | null
+          resource_type: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          resource_id?: string | null
+          resource_type: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          resource_id?: string | null
+          resource_type?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      blog_posts: {
+        Row: {
+          author_id: string | null
+          canonical_url: string | null
+          category: string | null
+          content: string
+          created_at: string | null
+          excerpt: string | null
+          hero_image: string | null
+          id: string
+          og_image: string | null
+          published_at: string | null
+          scheduled_publish: string | null
+          seo_meta_description: string | null
+          seo_meta_title: string | null
+          slug: string
+          status: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          canonical_url?: string | null
+          category?: string | null
+          content: string
+          created_at?: string | null
+          excerpt?: string | null
+          hero_image?: string | null
+          id?: string
+          og_image?: string | null
+          published_at?: string | null
+          scheduled_publish?: string | null
+          seo_meta_description?: string | null
+          seo_meta_title?: string | null
+          slug: string
+          status?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          canonical_url?: string | null
+          category?: string | null
+          content?: string
+          created_at?: string | null
+          excerpt?: string | null
+          hero_image?: string | null
+          id?: string
+          og_image?: string | null
+          published_at?: string | null
+          scheduled_publish?: string | null
+          seo_meta_description?: string | null
+          seo_meta_title?: string | null
+          slug?: string
+          status?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ebooks: {
+        Row: {
+          access_type: string | null
+          active: boolean | null
+          category: string | null
+          cover_image: string | null
+          created_at: string | null
+          description: string | null
+          download_count: number | null
+          featured: boolean | null
+          file_url: string
+          id: string
+          price: number | null
+          stripe_price_id: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          access_type?: string | null
+          active?: boolean | null
+          category?: string | null
+          cover_image?: string | null
+          created_at?: string | null
+          description?: string | null
+          download_count?: number | null
+          featured?: boolean | null
+          file_url: string
+          id?: string
+          price?: number | null
+          stripe_price_id?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          access_type?: string | null
+          active?: boolean | null
+          category?: string | null
+          cover_image?: string | null
+          created_at?: string | null
+          description?: string | null
+          download_count?: number | null
+          featured?: boolean | null
+          file_url?: string
+          id?: string
+          price?: number | null
+          stripe_price_id?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          avatar_url: string | null
+          company: string | null
+          created_at: string | null
+          featured: boolean | null
+          id: string
+          name: string
+          rating: number | null
+          role: string | null
+          source: string | null
+          status: string | null
+          testimonial: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          company?: string | null
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          name: string
+          rating?: number | null
+          role?: string | null
+          source?: string | null
+          status?: string | null
+          testimonial: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          company?: string | null
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          name?: string
+          rating?: number | null
+          role?: string | null
+          source?: string | null
+          status?: string | null
+          testimonial?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          active: boolean | null
+          billing_type: string | null
+          created_at: string | null
+          cta_label: string | null
+          cta_url: string | null
+          display_order: number | null
+          id: string
+          long_description: string | null
+          name: string
+          price: number
+          sale_price: number | null
+          short_description: string | null
+          sku: string | null
+          stripe_price_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          billing_type?: string | null
+          created_at?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          display_order?: number | null
+          id?: string
+          long_description?: string | null
+          name: string
+          price: number
+          sale_price?: number | null
+          short_description?: string | null
+          sku?: string | null
+          stripe_price_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          billing_type?: string | null
+          created_at?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          display_order?: number | null
+          id?: string
+          long_description?: string | null
+          name?: string
+          price?: number
+          sale_price?: number | null
+          short_description?: string | null
+          sku?: string | null
+          stripe_price_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          key: string
+          updated_at: string | null
+          value: Json
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          key: string
+          updated_at?: string | null
+          value: Json
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          key?: string
+          updated_at?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +449,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor"],
+    },
   },
 } as const
