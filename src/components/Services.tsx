@@ -1,7 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Briefcase, TrendingUp, Rocket, Crown, Check, Sparkles, GraduationCap } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Briefcase, TrendingUp, Rocket, Crown, Check, Sparkles, GraduationCap, Plus, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const studentOffer = {
   icon: GraduationCap,
@@ -112,6 +114,8 @@ const addOns = [
 ];
 
 const Services = () => {
+  const [showAddOns, setShowAddOns] = useState(false);
+
   const handleBookNow = () => {
     const bookingElement = document.getElementById('booking');
     bookingElement?.scrollIntoView({ behavior: 'smooth' });
@@ -174,41 +178,48 @@ const Services = () => {
           ))}
         </div>
 
-        {/* Optional Add-Ons */}
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10">
-            <h3 className="text-3xl font-bold text-secondary mb-3">
-              Optional Add-Ons
-            </h3>
-            <p className="text-muted-foreground">
-              Enhance your package with additional services
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {addOns.map((addon, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="text-base leading-tight flex-1">{addon.name}</CardTitle>
-                    <Badge variant="secondary" className="shrink-0 text-xs">
-                      {addon.category}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="text-xl font-bold text-primary">{addon.price}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Button onClick={handleBookNow} size="lg" variant="outline">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Book a Consultation
-            </Button>
-          </div>
+        {/* Optional Add-Ons - Compact View */}
+        <div className="max-w-4xl mx-auto text-center">
+          <Dialog open={showAddOns} onOpenChange={setShowAddOns}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="lg" className="group">
+                <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" />
+                View Optional Add-Ons & Extras
+                <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl">Optional Add-Ons</DialogTitle>
+                <DialogDescription>
+                  Enhance your package with additional services
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                {addOns.map((addon, index) => (
+                  <Card key={index} className="hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <CardTitle className="text-sm leading-tight flex-1">{addon.name}</CardTitle>
+                        <Badge variant="secondary" className="shrink-0 text-xs">
+                          {addon.category}
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="text-lg font-bold text-primary">{addon.price}</div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <div className="text-center mt-6 pt-4 border-t">
+                <Button onClick={() => { setShowAddOns(false); handleBookNow(); }} size="lg">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Book a Consultation
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </section>
