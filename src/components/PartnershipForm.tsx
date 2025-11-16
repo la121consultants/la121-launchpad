@@ -23,11 +23,21 @@ const services = [
   'White-Label Support for Agencies',
   'Tailored CVs & Portfolios Based on JD',
   'Priority Candidate Alerts',
+  'Job Board Posting',
 ];
 
 const digitalTools = [
   'CV Revamp AI Tool',
   'ShowIntroBio Tool',
+];
+
+const jobBoardOptions = [
+  'Single Job Posting',
+  'Multiple Job Postings (5-10 jobs)',
+  'Multiple Job Postings (10-25 jobs)',
+  'Unlimited Postings (Monthly Subscription)',
+  'Featured Job Listings',
+  'Candidate Database Access',
 ];
 
 const PartnershipForm = () => {
@@ -43,6 +53,7 @@ const PartnershipForm = () => {
     userCount: '',
     selectedServices: [] as string[],
     selectedTools: [] as string[],
+    selectedJobBoardOptions: [] as string[],
     partnershipInterest: '',
   });
 
@@ -61,6 +72,15 @@ const PartnershipForm = () => {
       selectedTools: prev.selectedTools.includes(tool)
         ? prev.selectedTools.filter(t => t !== tool)
         : [...prev.selectedTools, tool]
+    }));
+  };
+
+  const handleJobBoardToggle = (option: string) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedJobBoardOptions: prev.selectedJobBoardOptions.includes(option)
+        ? prev.selectedJobBoardOptions.filter(o => o !== option)
+        : [...prev.selectedJobBoardOptions, option]
     }));
   };
 
@@ -100,6 +120,7 @@ Partnership Tier: ${formData.partnershipTier}
 Number of Users: ${formData.userCount || 'N/A'}
 Services Interested In: ${formData.selectedServices.join(', ') || 'None selected'}
 Digital Tools Interest: ${formData.selectedTools.join(', ') || 'None selected'}
+Job Board Options: ${formData.selectedJobBoardOptions.join(', ') || 'None selected'}
 
 Additional Notes:
 ${formData.partnershipInterest}
@@ -130,6 +151,7 @@ ${formData.partnershipInterest}
         userCount: '',
         selectedServices: [],
         selectedTools: [],
+        selectedJobBoardOptions: [],
         partnershipInterest: '',
       });
     } catch (error: any) {
@@ -315,6 +337,34 @@ ${formData.partnershipInterest}
             <p className="text-xs text-muted-foreground">
               Give your candidates access to our AI-powered career tools
             </p>
+          </div>
+
+          <div className="border-t pt-6 mt-6">
+            <h3 className="text-lg font-semibold mb-4">Job Board Services</h3>
+            
+            <div className="space-y-3">
+              <Label>Job Board Options (Optional)</Label>
+              <div className="space-y-2">
+                {jobBoardOptions.map((option) => (
+                  <div key={option} className="flex items-start space-x-3">
+                    <Checkbox
+                      id={`jobboard-${option}`}
+                      checked={formData.selectedJobBoardOptions.includes(option)}
+                      onCheckedChange={() => handleJobBoardToggle(option)}
+                    />
+                    <label
+                      htmlFor={`jobboard-${option}`}
+                      className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      {option}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Post your job openings and get access to our pre-screened candidate pool
+              </p>
+            </div>
           </div>
 
           <div className="space-y-2">

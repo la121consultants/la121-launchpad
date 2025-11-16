@@ -130,6 +130,33 @@ const Partnership = () => {
                   </p>
                 </CardContent>
               </Card>
+              <Card className="border-2 border-primary/20 bg-primary/5">
+                <CardContent className="pt-6">
+                  <h3 className="font-semibold text-lg mb-2">📋 Job Board Services</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Post your job openings on our job board and get access to our pool of pre-screened, 
+                    career-ready candidates. Perfect for companies looking to fill positions with qualified talent.
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      <span>Single or multiple job postings with flexible pricing</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      <span>Featured listings for increased visibility</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      <span>Direct access to our pre-screened candidate database</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      <span>Monthly subscription options for unlimited postings</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
