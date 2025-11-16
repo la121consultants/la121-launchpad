@@ -112,6 +112,11 @@ const addOns = [
 ];
 
 const Services = () => {
+  const handleBookNow = () => {
+    const bookingElement = document.getElementById('booking');
+    bookingElement?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="services" className="py-20 bg-background">
       <div className="container px-4 mx-auto">
@@ -169,59 +174,41 @@ const Services = () => {
           ))}
         </div>
 
-        {/* Additional Services Accordion */}
-        <div className="max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-secondary text-center mb-8">
-            Additional Services & Pricing
-          </h3>
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="consultations">
-              <AccordionTrigger className="text-lg font-semibold">
-                One-to-One Consultations
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-                  {consultationServices.map((service, index) => (
-                    <Card key={index} className="border-border/50">
-                      <CardContent className="pt-6">
-                        <div className="text-2xl font-bold text-primary mb-2">{service.price}</div>
-                        <div className="font-semibold text-secondary mb-1">{service.duration}</div>
-                        <p className="text-sm text-muted-foreground">{service.description}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+        {/* Optional Add-Ons */}
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <h3 className="text-3xl font-bold text-secondary mb-3">
+              Optional Add-Ons
+            </h3>
+            <p className="text-muted-foreground">
+              Enhance your package with additional services
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {addOns.map((addon, index) => (
+              <Card key={index} className="hover:shadow-md transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-base leading-tight flex-1">{addon.name}</CardTitle>
+                    <Badge variant="secondary" className="shrink-0 text-xs">
+                      {addon.category}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="text-xl font-bold text-primary">{addon.price}</div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-            <AccordionItem value="additional">
-              <AccordionTrigger className="text-lg font-semibold">
-                À La Carte Services
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-                  {additionalServices.map((service, index) => (
-                    <Card key={index} className="border-border/50">
-                      <CardContent className="pt-6 flex justify-between items-start">
-                        <div>
-                          <div className="font-semibold text-secondary mb-1">{service.service}</div>
-                          <p className="text-sm text-muted-foreground">{service.description}</p>
-                        </div>
-                        <div className="text-lg font-bold text-primary whitespace-nowrap ml-4">
-                          {service.price}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-                <div className="mt-6 p-4 bg-accent/10 rounded-lg border border-accent/20">
-                  <p className="text-sm text-center text-foreground/80">
-                    <span className="font-semibold">10% student discount available</span> on all services
-                  </p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="text-center mt-10">
+            <Button onClick={handleBookNow} size="lg" variant="outline">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Book a Consultation
+            </Button>
+          </div>
         </div>
       </div>
     </section>
