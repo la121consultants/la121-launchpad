@@ -1,88 +1,114 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { FileText, Briefcase, Sparkles, Users, TrendingUp, Rocket, Check } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Briefcase, TrendingUp, Rocket, Crown, Check, Sparkles, GraduationCap } from "lucide-react";
+
+const studentOffer = {
+  icon: GraduationCap,
+  name: "Student Winter Offer",
+  price: "£49.99",
+  originalPrice: "£69.99",
+  description: "Special student pricing for essential career tools",
+  features: [
+    "CV Review",
+    "CV Revamp",
+    "1-Page Career Portfolio"
+  ],
+  badge: "Limited Time"
+};
 
 const packages = [
   {
     icon: Briefcase,
-    name: "Basic Career Boost",
-    price: "£159",
-    description: "Perfect for getting started with professional career support",
+    name: "Basic Plus Package",
+    price: "£99",
+    studentPrice: "£69.99",
+    description: "Perfect for students and entry-level professionals",
     features: [
-      "CV review and revamp",
-      "Professional cover letter",
-      "1 interview preparation session",
-      "Email support"
+      "CV Review",
+      "CV Revamp",
+      "1-Page Portfolio"
     ],
     popular: false
   },
   {
     icon: TrendingUp,
-    name: "Premium Career Accelerator",
-    price: "£250",
-    description: "Comprehensive support for serious job seekers",
+    name: "Essential Career Starter",
+    price: "£129",
+    description: "Complete package to kickstart your career journey",
     features: [
-      "CV review and revamp",
-      "Professional cover letter",
-      "1 interview preparation session",
-      "Application support",
-      "Job search support",
-      "Priority email support"
-    ],
-    popular: true
-  },
-  {
-    icon: Rocket,
-    name: "Personal Mentorship Program",
-    price: "£499",
-    description: "Full career transformation with AI tools and personal guidance",
-    features: [
-      "AI CV Revamp & Pro User Access",
-      "Professional CV review & enhancement",
-      "Personalized cover letter",
-      "2 hours of 1:1 personal mentorship",
-      "Job search & application support",
-      "2 interview preparation sessions (2 hours total)",
-      "Exclusive LA121 WhatsApp community access"
+      "CV Review",
+      "CV Revamp",
+      "Cover Letter",
+      "Interview Prep (30 mins)",
+      "Starter Portfolio",
+      "Unlimited CV AI Tool Access",
+      "WhatsApp Community"
     ],
     popular: false
   },
   {
-    icon: Sparkles,
-    name: "Executive Career Branding",
-    price: "Contact Us",
-    description: "Position yourself for a £10,000+ salary increase in 6 weeks",
+    icon: Rocket,
+    name: "Career Accelerator",
+    price: "£249",
+    description: "Comprehensive support for serious job seekers",
     features: [
-      "Career strategy session (1:1 Zoom)",
-      "AI-enhanced CV transformation",
-      "Tailored cover letter & personal statement",
-      "LinkedIn profile optimisation",
-      "Interview confidence accelerator",
-      "30-day ongoing support",
-      "Results within 6 weeks"
+      "CV Review",
+      "CV Revamp",
+      "Cover Letter",
+      "Interview Prep (45 mins)",
+      "Job Strategy",
+      "Application Support (1 role)",
+      "Starter Portfolio",
+      "Unlimited CV AI Access",
+      "Unlimited ShowIntroBio Access"
+    ],
+    popular: true
+  },
+  {
+    icon: Crown,
+    name: "Premium Mentorship Programme",
+    price: "£499",
+    description: "Full career transformation with premium support",
+    features: [
+      "Full CV Revamp",
+      "LinkedIn Optimisation",
+      "Cover Letter",
+      "2× Interview Prep Sessions",
+      "Job Search Support",
+      "Application Support (2 roles)",
+      "Professional Portfolio (3–4 Pages)",
+      "Unlimited CV AI Access",
+      "Unlimited ShowIntroBio Access"
     ],
     popular: false
   }
 ];
 
-const consultationServices = [
-  { duration: "30 minutes", price: "£50", description: "Quick career guidance session" },
-  { duration: "1 hour", price: "£75", description: "In-depth consultation" },
-  { duration: "2 hours", price: "£99", description: "Comprehensive career planning" },
-];
-
-const additionalServices = [
-  { service: "CV Review Only", price: "£30", description: "Expert highlights areas for improvement" },
-  { service: "CV Revamp", price: "£99", description: "Complete expert redo tailored to your skills" },
-  { service: "CV Revamp & Cover Letter", price: "£125", description: "Full CV transformation plus cover letter" },
-  { service: "Multiple CV Revamp", price: "£199", description: "Up to 3 CVs for different roles" },
-  { service: "Interview Prep - Standard", price: "£65", description: "Standard interview preparation" },
-  { service: "Interview Prep - Premium", price: "£125", description: "Detailed research on you and the role" },
-  { service: "Cover Letter Review", price: "£30", description: "Expert feedback on your cover letter" },
-  { service: "Cover Letter Creation", price: "£99", description: "Professional cover letter from scratch" },
-  { service: "Job Search Support", price: "£49", description: "CV review + job search consultation" },
-  { service: "Career Portfolio", price: "From £99", description: "Professional online portfolio" }
+const addOns = [
+  { name: "Unlimited CV Access", price: "£199", category: "Tools" },
+  { name: "Unlimited ShowIntroBio Access", price: "£39", category: "Tools" },
+  { name: "Additional CV Revamp", price: "£49", category: "CV Services" },
+  { name: "Multiple CV Pack (Up to 3)", price: "£99", category: "CV Services" },
+  { name: "Cover Letter Rewrite", price: "£35", category: "Cover Letter" },
+  { name: "Cover Letter Review", price: "£20", category: "Cover Letter" },
+  { name: "Application Support (Per Role)", price: "£50", category: "Job Search" },
+  { name: "Job Search Strategy Session", price: "£69", category: "Job Search" },
+  { name: "Interview Prep (Standard)", price: "£65", category: "Interview" },
+  { name: "Premium Interview Prep", price: "£99", category: "Interview" },
+  { name: "Multiple Interview Pack (4)", price: "£399", category: "Interview" },
+  { name: "Starter Portfolio", price: "£99", category: "Portfolio" },
+  { name: "Professional Portfolio", price: "£149–£179", category: "Portfolio" },
+  { name: "Personal Brand Portfolio", price: "£249–£299", category: "Portfolio" },
+  { name: "Premium Portfolio", price: "£399–£499", category: "Portfolio" },
+  { name: "Custom Domain", price: "£25–£30", category: "Portfolio" },
+  { name: "Domain Subscription", price: "£5/month", category: "Portfolio" },
+  { name: "Maintenance & Updates", price: "£10/month or £79.99/year", category: "Portfolio" },
+  { name: "Portfolio + Bio Combo", price: "£69", category: "Portfolio" },
+  { name: "1:1 Portfolio Review Call", price: "£35", category: "Consultation" },
+  { name: "1:1 Mentorship Hour", price: "£60", category: "Consultation" },
+  { name: "Email Support (30 Days)", price: "£25", category: "Support" },
+  { name: "Career Roadmap Session", price: "£50", category: "Consultation" }
 ];
 
 const Services = () => {
