@@ -20,9 +20,11 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import Users from "./pages/admin/Users";
 import FormSubmissions from "./pages/admin/FormSubmissions";
 import Reports from "./pages/admin/Reports";
+import JobPostings from "./pages/admin/JobPostings";
 import BookCall from "./pages/BookCall";
 import OrderService from "./pages/OrderService";
 import Partnership from "./pages/Partnership";
+import Jobs from "./pages/Jobs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,11 +44,13 @@ const App = () => (
           <Route path="/book-call" element={<BookCall />} />
           <Route path="/order-service" element={<OrderService />} />
           <Route path="/partnership" element={<Partnership />} />
+          <Route path="/jobs" element={<Jobs />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/submissions" element={<FormSubmissions />} />
           <Route path="/admin/reports" element={<Reports />} />
+          <Route path="/admin/jobs" element={<JobPostings />} />
           <Route path="/admin/users-management" element={<AdminUsers />} />
           <Route path="/admin/reviews" element={<Reviews />} />
           <Route path="/admin/services" element={<Services />} />

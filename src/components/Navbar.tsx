@@ -44,6 +44,9 @@ const Navbar = () => {
             <Link to="/partnership" className="text-secondary hover:text-primary transition-colors font-medium">
               Partnerships
             </Link>
+            <Link to="/jobs" className="text-secondary hover:text-primary transition-colors font-medium">
+              Jobs
+            </Link>
             <Button
               onClick={() => scrollToSection("booking")}
               className="bg-primary hover:bg-primary/90 text-white"
@@ -84,6 +87,9 @@ const Navbar = () => {
             </Link>
             <Link to="/partnership" className="block text-secondary hover:text-primary transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
               Partnerships
+            </Link>
+            <Link to="/jobs" className="block text-secondary hover:text-primary transition-colors font-medium py-2" onClick={() => setIsOpen(false)}>
+              Jobs
             </Link>
             <Button
               onClick={() => scrollToSection("booking")}
