@@ -486,6 +486,22 @@ void main(){gl_Position=position;}`;
                 {[...logoCloud.logos, ...logoCloud.logos].map((logo, index) => (
                   <div
                     key={`${logo.name}-${index}`}
+                    className="logo-float flex min-w-[160px] flex-col items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-center"
+                    style={{ animationDelay: `${(index % logoCloud.logos.length) * 0.2}s` }}
+                  >
+                    {logo.imageSrc ? (
+                      <img
+                        src={logo.imageSrc}
+                        alt={logo.alt ?? `${logo.name} logo`}
+                        loading="lazy"
+                        className="h-10 w-auto object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.45)]"
+                      />
+                    ) : (
+                      <span className="text-base md:text-lg font-semibold uppercase tracking-wide text-white">
+                        {logo.initials ?? logo.name}
+                      </span>
+                    )}
+                    <span className="text-[10px] font-semibold uppercase tracking-wide text-white/60">
                     className="logo-float flex min-w-[160px] flex-col items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide text-white/80"
                     style={{ animationDelay: `${(index % logoCloud.logos.length) * 0.2}s` }}
                   >
