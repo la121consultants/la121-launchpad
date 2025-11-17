@@ -9,14 +9,14 @@ const Hero = () => {
   return (
     <AnimatedShaderHero
       trustBadge={{
-        text: "Trusted by professionals across industries",
+        text: "Career Consultant UK team trusted by professionals",
         icons: ["⭐"]
       }}
       headline={{
-        line1: "Personalised One-to-One",
-        line2: "Career Consulting"
+        line1: "Professional CV Writing",
+        line2: "and Career Coaching UK"
       }}
-      subtitle="Get expert guidance on CVs, interviews, and career strategy. Transform your job search with AI-powered tools and personalized mentorship from LA121 Consultants."
+      subtitle="Partner with LA121's CV Revamp Service UK for interview preparation, graduate CV services, and job search support powered by AI tools and personal mentorship."
       buttons={{
         primary: {
           text: "Book a Free Strategy Call",
