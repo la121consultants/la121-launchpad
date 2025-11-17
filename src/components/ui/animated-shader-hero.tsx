@@ -21,6 +21,13 @@ interface HeroProps {
       onClick?: () => void;
     };
   };
+  logoCloud?: {
+    heading?: string;
+    logos: {
+      name: string;
+      initials?: string;
+    }[];
+  };
   className?: string;
 }
 
@@ -318,13 +325,14 @@ void main(){gl_Position=position;}`;
 };
 
 // Reusable Hero Component
-const AnimatedShaderHero: React.FC<HeroProps> = ({
-  trustBadge,
-  headline,
-  subtitle,
-  buttons,
-  className = ""
-}) => {
+  const AnimatedShaderHero: React.FC<HeroProps> = ({
+    trustBadge,
+    headline,
+    subtitle,
+    buttons,
+    logoCloud,
+    className = ""
+  }) => {
   const canvasRef = useShaderBackground();
 
   return (
@@ -375,6 +383,25 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
         
         .animation-delay-800 {
           animation-delay: 0.8s;
+        }
+
+        @keyframes logo-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        @keyframes logo-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+
+        .logo-marquee {
+          animation: logo-marquee 35s linear infinite;
+          width: fit-content;
+        }
+
+        .logo-float {
+          animation: logo-float 4s ease-in-out infinite;
         }
       `}</style>
       
@@ -445,6 +472,36 @@ const AnimatedShaderHero: React.FC<HeroProps> = ({
           )}
         </div>
       </div>
+
+      {logoCloud && logoCloud.logos.length > 0 && (
+        <div className="absolute bottom-6 left-0 right-0 z-20 px-4 pointer-events-none">
+          <div className="max-w-6xl mx-auto rounded-3xl border border-white/10 bg-black/60 px-6 py-5 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+            {logoCloud.heading && (
+              <p className="mb-4 text-center text-sm uppercase tracking-[0.2em] text-white/70">
+                {logoCloud.heading}
+              </p>
+            )}
+            <div className="overflow-hidden">
+              <div className="flex gap-6 logo-marquee">
+                {[...logoCloud.logos, ...logoCloud.logos].map((logo, index) => (
+                  <div
+                    key={`${logo.name}-${index}`}
+                    className="logo-float flex min-w-[160px] flex-col items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide text-white/80"
+                    style={{ animationDelay: `${(index % logoCloud.logos.length) * 0.2}s` }}
+                  >
+                    <span className="text-base md:text-lg text-white">
+                      {logo.initials ?? logo.name}
+                    </span>
+                    <span className="mt-1 text-[10px] text-white/60">
+                      {logo.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
