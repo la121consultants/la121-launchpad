@@ -26,8 +26,6 @@ interface HeroProps {
     logos: {
       name: string;
       initials?: string;
-      imageSrc?: string;
-      alt?: string;
     }[];
   };
   className?: string;
@@ -504,6 +502,13 @@ void main(){gl_Position=position;}`;
                       </span>
                     )}
                     <span className="text-[10px] font-semibold uppercase tracking-wide text-white/60">
+                    className="logo-float flex min-w-[160px] flex-col items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide text-white/80"
+                    style={{ animationDelay: `${(index % logoCloud.logos.length) * 0.2}s` }}
+                  >
+                    <span className="text-base md:text-lg text-white">
+                      {logo.initials ?? logo.name}
+                    </span>
+                    <span className="mt-1 text-[10px] text-white/60">
                       {logo.name}
                     </span>
                   </div>
