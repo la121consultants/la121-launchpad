@@ -30,14 +30,36 @@ const Hero = () => {
       logoCloud={{
         heading: "LA121 consultants have powered careers within leading UK employers",
         logos: [
-          { name: "Capgemini", initials: "CG" },
-          { name: "KPMG", initials: "KPMG" },
-          { name: "FinTech Innovators", initials: "FT" },
-          { name: "High-Growth Tech Teams", initials: "TECH" },
-          { name: "Graduate Programmes", initials: "GRAD" },
-          { name: "Enterprise Rent-A-Car", initials: "ERAC" },
-          { name: "Unilabs", initials: "UL" },
-          { name: "Hammersmith & Fulham Council", initials: "H&F" }
+          {
+            name: "Capgemini",
+            imageSrc: "/logos/capgemini.svg",
+            alt: "Capgemini logo"
+          },
+          {
+            name: "KPMG",
+            imageSrc: "/logos/kpmg.svg",
+            alt: "KPMG logo"
+          },
+          {
+            name: "Microsoft",
+            imageSrc: "/logos/microsoft.svg",
+            alt: "Microsoft logo"
+          },
+          {
+            name: "Enterprise Rent-A-Car",
+            imageSrc: "/logos/enterprise.svg",
+            alt: "Enterprise Rent-A-Car logo"
+          },
+          {
+            name: "Unilabs",
+            imageSrc: "/logos/unilabs.svg",
+            alt: "Unilabs logo"
+          },
+          {
+            name: "Hammersmith & Fulham Council",
+            imageSrc: "/logos/hammersmith-fulham.svg",
+            alt: "Hammersmith and Fulham Council logo"
+          }
         ]
       }}
     />

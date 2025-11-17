@@ -63,7 +63,13 @@ void main(){gl_Position=position;}`;
     constructor(canvas: HTMLCanvasElement, scale: number) {
       this.canvas = canvas;
       this.scale = scale;
-      this.gl = canvas.getContext('webgl2')!;
+      const context = canvas.getContext('webgl2');
+
+      if (!context) {
+        throw new Error('WebGL2 is not supported in this environment.');
+      }
+
+      this.gl = context;
       this.gl.viewport(0, 0, canvas.width * scale, canvas.height * scale);
       this.shaderSource = defaultShaderSource;
     }
@@ -293,23 +299,30 @@ void main(){gl_Position=position;}`;
 
     const canvas = canvasRef.current;
     const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
-    
-    rendererRef.current = new WebGLRenderer(canvas, dpr);
+
+    try {
+      rendererRef.current = new WebGLRenderer(canvas, dpr);
+    } catch (error) {
+      console.warn('WebGL2 not available, falling back to static hero background.', error);
+      canvas.style.background = 'radial-gradient(circle at 20% 20%, rgba(58,131,254,0.35), transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,143,244,0.25), transparent 60%), #020204';
+      return;
+    }
+
     pointersRef.current = new PointerHandler(canvas, dpr);
-    
+
     rendererRef.current.setup();
     rendererRef.current.init();
-    
+
     resize();
-    
+
     if (rendererRef.current.test(defaultShaderSource) === null) {
       rendererRef.current.updateShader(defaultShaderSource);
     }
-    
+
     loop(0);
-    
+
     window.addEventListener('resize', resize);
-    
+
     return () => {
       window.removeEventListener('resize', resize);
       if (animationFrameRef.current) {
@@ -317,7 +330,9 @@ void main(){gl_Position=position;}`;
       }
       if (rendererRef.current) {
         rendererRef.current.reset();
+        rendererRef.current = null;
       }
+      pointersRef.current = null;
     };
   }, []);
 
